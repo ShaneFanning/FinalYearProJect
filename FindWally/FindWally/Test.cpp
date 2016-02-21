@@ -1,4 +1,4 @@
-#include "stdafx.h"
+/*#include "stdafx.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 using namespace cv;
@@ -16,4 +16,4 @@ return -1;
 imshow("Image", im);
 waitKey(0);
 
-}
+}*/
