@@ -11,9 +11,9 @@
 #include <iostream>
 #include <string>
 #include "wtypes.h"
-#include "opencv2/core/core.hpp"
+#include <opencv2/core/core.hpp>
 #include "opencv2/features2d/features2d.hpp"
-#include "opencv2/highgui/highgui.hpp"
+#include <opencv2/highgui/highgui.hpp>
 #include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/opencv.hpp"
@@ -21,7 +21,7 @@
 using namespace cv;
 using namespace std;
 
-void selectPuzzle();
+cv::Mat selectPuzzle();
 
 // This function is used to get the size of the screen so that the final display will fit the screen on smaller laptops
 void getScreenSize(int& width, int& height)
@@ -43,16 +43,14 @@ For the final display I have the template beside the puzzle with the matches bei
 void Search(cv::Mat puzzle) {
 	int width, height;
 	getScreenSize(width, height);
-
-	cv::Mat wally = cv::imread("/../TheresWally/Templates/Wally/Movie.png");
-
+	cv::Mat wally = cv::imread("C:/Templates/Wally.png");
 	if (wally.empty()) {
+		printf("Wally template was not loaded");
 		cout << "image not loaded";
 	}
-
 	else {
 		int minHes = 400;
-
+		getchar();
 		cv::SurfFeatureDetector detector(minHes);
 		std::vector<KeyPoint> WKeys, PKeys;
 
@@ -112,17 +110,18 @@ void Search(cv::Mat puzzle) {
 		cv::resizeWindow("Found", width, height);
 		cv::imshow("Found", img_matches);
 		waitKey(0);
-		selectPuzzle();
+		getchar();
 	}
 }
 
 // This function allows he user to select a puzzle to be searched or close the program
-void selectPuzzle() {
-	cv::Mat Deep_Sea = cv::imread("/../TheresWally/Puzzles/0.jpg");
-	cv::Mat Movie = cv::imread("/../TheresWally/Puzzles/2.jpg");
-	cv::Mat Giants = cv::imread("/../TheresWally/Puzzles/3.jpg");
-	cv::Mat Stage = cv::imread("/../TheresWally/Puzzles/5.jpg");
-	cv::Mat Wallys = cv::imread("/../TheresWally/Puzzles/15.jpg");
+cv::Mat selectPuzzle() {
+	cv::Mat puzzle =cv::imread("C:/Puzzles/0.jpg");
+	/*cv::Mat Deep_Sea = cv::imread("C:/Puzzles/0.jpg");
+	cv::Mat Movie = cv::imread("C:/Puzzles/2.jpg");
+	cv::Mat Giants = cv::imread("C:/Puzzles/3.jpg");
+	cv::Mat Stage = cv::imread("C:/Puzzles/5.jpg");
+	cv::Mat Wallys = cv::imread("C:/Puzzles/15.jpg");*/
 
 	int c;
 	printf("Please enter the number for the puzzle you want to search or 0 to exit!.\n\t 1. Deep sea \n\t 2. Movie Set \n\t 3. Land of Giants \n\t 4. The Big Stage \n\t 5. Multiple Wally's \n");
@@ -132,29 +131,27 @@ void selectPuzzle() {
 	{
 	// Depending on what is entered the program start a search for its corresponding puzzle
 	case 1:
-		Search(Deep_Sea);
-		break;
-	case 2:
-		Search(Movie);
-		break;
-	case 3:
-		Search(Giants);
-		break;
+		return puzzle;
+	/*case 2:
+		return puzzle;
+	/*case 3:
+		return Giants;
 	case 4:
-		Search(Stage);
-		break;
+		return Stage;
 	case 5:
-		Search(Wallys);
-		break;
+		return Wallys;*/
 	case 0:
 		// If zero is entered the program will close
-		break;
+		printf("Bye!");
+		exit(0);
 	}
 }
 
 // Main is used to call selectPuzzle() after every search and at the start of the program 
 int main(int argc, char** argv)
 {
-		selectPuzzle();
-		return 0;
+	//cv::Mat Deep_Sea = cv::imread("C:/Puzzles/0.jpg");
+	cv::Mat puzzle = selectPuzzle();
+	Search(puzzle);
+	return 0;
 }
